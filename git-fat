@@ -472,6 +472,7 @@ class GitFat(object):
         
         self.verbose('****************************')
         self.verbose(orphans_objects)
+        self.verbose(files & orphans_objects)
         
         return files & orphans_objects
 

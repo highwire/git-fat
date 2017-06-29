@@ -404,7 +404,7 @@ class GitFat(object):
         'Update any stale files in the present working tree'
         self.assert_init_done()
         for digest, fname in self.orphan_files():
-            objpath = os.path.join(self.objdir, digest)
+            objpath = os.path.join(self.objdir, digest[0:2], digest[2:4], digest)
             if os.access(objpath, os.R_OK):
                 print('Restoring %s -> %s' % (digest, fname))
                 # The output of our smudge filter depends on the existence of
@@ -462,7 +462,7 @@ class GitFat(object):
         garbage = self.catalog_objects() - self.referenced_objects()
         print('Unreferenced objects to remove: %d' % len(garbage))
         for obj in garbage:
-            fname = os.path.join(self.objdir, obj)
+            fname = os.path.join(self.objdir, obj[0:2], obj[2:4], obj)
             print('%10d %s' % (os.stat(fname).st_size, obj))
             os.remove(fname)
 
@@ -470,7 +470,7 @@ class GitFat(object):
         """Print details of git-fat objects with incorrect data hash"""
         corrupted_objects = []
         for obj in self.catalog_objects():
-            fname = os.path.join(self.objdir, obj)
+            fname = os.path.join(self.objdir, obj[0:2], obj[2:4], obj)
             h = hashlib.new('sha1')
             for block in readblocks(open(fname)):
                 h.update(block)

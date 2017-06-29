@@ -294,7 +294,7 @@ class GitFat(object):
             self.verbose('git-fat filter-smudge: not a managed file')
             cat_iter(result, sys.stdout)
     def catalog_objects(self):
-        return set(os.listdir(self.objdir))
+        return set([os.path.join(f[0:2],f[2:4],f) for dp, dn, fn in os.walk(self.objdir) for f in fn])
     def referenced_objects(self, rev=None, all=False):
         referenced = set()
         if all:
@@ -340,7 +340,7 @@ class GitFat(object):
                 bytes_read += len(data)
             try:
                 fathash = self.decode(content)[0]
-                referenced.add(fathash)
+                referenced.add(os.path.join(fathash[0:2], fathash[2:4], fathash))
             except GitFat.DecodeError:
                 pass
             # Consume LF record delimiter in `cat-file --batch` output

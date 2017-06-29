@@ -469,6 +469,10 @@ class GitFat(object):
             return files
         orphans_matched = list(self.orphan_files(patterns))
         orphans_objects = set(map(lambda x: x[0], orphans_matched))
+        
+        self.verbose('****************************')
+        self.verbose(orphans_objects)
+        
         return files & orphans_objects
 
     def cmd_checkout(self, args):

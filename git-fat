@@ -165,7 +165,7 @@ class GitFat(object):
         else:
             self.verbose('Pulling from %s' % (remote))
 
-        cmd = ['rsync', '--progress', '--ignore-existing', '--from0', '--files-from=-']
+        cmd = ['rsync', '--progress', '--ignore-existing', '--from0', '--recursive', '--files-from=-']
         rshopts = ''
         if ssh_user:
             rshopts += ' -l ' + ssh_user

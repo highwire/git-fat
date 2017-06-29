@@ -55,10 +55,10 @@ rm d
 git fat pull
 
 # Check verify command finds corrupt object
-mv .git/fat/objects/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0 \
-   .git/fat/objects/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0.bak
-echo "Not the right data" > .git/fat/objects/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0
+mv .git/fat/objects/9f9/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0 \
+   .git/fat/objects/9f9/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0.bak
+echo "Not the right data" > .git/fat/objects/9f9/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0
 git fat verify && true
 if [ $? -eq 0 ]; then echo "Verify did not detect invalid object"; exit 1; fi
-mv .git/fat/objects/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0.bak \
-   .git/fat/objects/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0
+mv .git/fat/objects/9f9/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0.bak \
+   .git/fat/objects/9f9/9f90cbb562af4528ee97c8e3bc286e09c34e12992c255073f1e7ff6f6d9c54f0

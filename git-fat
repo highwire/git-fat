@@ -432,6 +432,13 @@ class GitFat(object):
                 refargs['rev'] = rev
         files = self.filter_objects(refargs, self.parse_pull_patterns(args))
         cmd = self.get_rsync_command(push=False)
+                
+        self.verbose('+++++++++++++++++++++++++++')
+        self.verbose(refargs)
+        self.verbose(args)
+        self.verbose(self.parse_pull_patterns(args))
+        self.verbose(files)
+        
         self.verbose('Executing: %s' % ' '.join(cmd))
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         p.communicate(input='\x00'.join(files))
@@ -449,6 +456,12 @@ class GitFat(object):
 
     def filter_objects(self, refargs, patterns):
         files = self.referenced_objects(**refargs) - self.catalog_objects()
+        
+        self.verbose('==============================')
+        self.verbose(self.referenced_objects(**refargs))
+        self.verbose(self.catalog_objects())
+        self.verbose(files)
+        
         if refargs.get('all'): # Currently ignores patterns; can we efficiently do both?
             return files
         orphans_matched = list(self.orphan_files(patterns))

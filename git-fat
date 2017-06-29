@@ -420,6 +420,9 @@ class GitFat(object):
                 print('Data unavailable: %s %s' % (digest,fname))
     def cmd_pull(self, args):
         'Pull anything that I have referenced, but not stored'
+        
+        self.verbose('---------IN cmd_pull()-----------')
+        
         self.setup()
         refargs = dict()
         if '--all' in args:

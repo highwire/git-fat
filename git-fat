@@ -137,7 +137,7 @@ class GitFat(object):
         else:
             self.encode = self.encode_v2
         def magiclen(enc):
-            return len(enc(hashlib.sha1('dummy').hexdigest(), 5))
+            return len(enc(hashlib.sha256('dummy').hexdigest(), 5))
         self.magiclen = magiclen(self.encode) # Current version
         self.magiclens = [magiclen(enc) for enc in [self.encode_v1, self.encode_v2]] # All prior versions
     def setup(self):
@@ -234,7 +234,7 @@ class GitFat(object):
         digest, bytes = self.decode(body, noraise=True)
         return digest
     def filter_clean(self, instream, outstreamclean):
-        h = hashlib.new('sha1')
+        h = hashlib.new('sha256')
         bytes = 0
         fd, tmpname = tempfile.mkstemp(dir=self.objdir)
         try:
@@ -471,7 +471,7 @@ class GitFat(object):
         corrupted_objects = []
         for obj in self.catalog_objects():
             fname = os.path.join(self.objdir, obj)
-            h = hashlib.new('sha1')
+            h = hashlib.new('sha256')
             for block in readblocks(open(fname)):
                 h.update(block)
             data_hash = h.hexdigest()

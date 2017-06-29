@@ -498,7 +498,7 @@ class GitFat(object):
             for block in readblocks(open(fname)):
                 h.update(block)
             data_hash = h.hexdigest()
-            if obj != data_hash:
+            if os.path.split(obj)[-1] != data_hash:
                 corrupted_objects.append((obj, data_hash))
         if corrupted_objects:
             print('Corrupted objects: %d' % len(corrupted_objects))

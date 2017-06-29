@@ -263,7 +263,7 @@ class GitFat(object):
                 else:
                     # Set permissions for the new file using the current umask
                     os.chmod(tmpname, int('444', 8) & ~umask())
-                    os.rename(tmpname, objfile)
+                    os.renames(tmpname, objfile)
                     self.verbose('git-fat filter-clean: caching to %s' % objfile)
                 cached = True
                 outstreamclean.write(self.encode(digest, bytes))

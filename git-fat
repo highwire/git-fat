@@ -464,6 +464,8 @@ class GitFat(object):
         self.verbose(self.referenced_objects(**refargs))
         self.verbose(self.catalog_objects())
         self.verbose(files)
+        self.verbose(patterns)
+        self.verbose(list(self.orphan_files(patterns)))
         
         if refargs.get('all'): # Currently ignores patterns; can we efficiently do both?
             return files

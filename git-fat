@@ -485,7 +485,7 @@ class GitFat(object):
         garbage = self.catalog_objects() - self.referenced_objects()
         print('Unreferenced objects to remove: %d' % len(garbage))
         for obj in garbage:
-            fname = os.path.join(self.objdir, obj[0:2], obj[2:4], obj)
+            fname = os.path.join(self.objdir, obj)
             print('%10d %s' % (os.stat(fname).st_size, obj))
             os.remove(fname)
 
@@ -493,7 +493,7 @@ class GitFat(object):
         """Print details of git-fat objects with incorrect data hash"""
         corrupted_objects = []
         for obj in self.catalog_objects():
-            fname = os.path.join(self.objdir, obj[0:2], obj[2:4], obj)
+            fname = os.path.join(self.objdir, obj)
             h = hashlib.new('sha1')
             for block in readblocks(open(fname)):
                 h.update(block)

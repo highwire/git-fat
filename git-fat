@@ -255,7 +255,7 @@ class GitFat(object):
                     outstream.write(block)
                 outstream.flush()
             digest = h.hexdigest()
-            objfile = os.path.join(self.objdir, digest)
+            objfile = os.path.join(self.objdir, digest[0:2], digest[2:4], digest)
             if not ishanging:
                 if os.path.exists(objfile):
                     self.verbose('git-fat filter-clean: cache already exists %s' % objfile)
@@ -283,7 +283,7 @@ class GitFat(object):
         self.setup()
         result, bytes = self.decode_stream(sys.stdin)
         if isinstance(result, str):       # We got a digest
-            objfile = os.path.join(self.objdir, result)
+            objfile = os.path.join(self.objdir, result[0:2], result[2:4], result)
             try:
                 cat(open(objfile), sys.stdout)
                 self.verbose('git-fat filter-smudge: restoring from %s' % objfile)

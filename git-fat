@@ -478,6 +478,9 @@ class GitFat(object):
         
         return files & orphans_objects
 
+    def object_path(self, obj):
+        return os.path.join(obj[0:3],obj)
+
     def cmd_checkout(self, args):
         self.checkout(show_orphans=True)
 

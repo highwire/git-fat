@@ -363,7 +363,7 @@ class GitFat(object):
         for fname in subprocess.check_output(['git', 'ls-files', '-z'] + patterns).split('\x00')[:-1]:
             digest = self.decode_file(fname)[0]
             if digest:
-                yield (digest, fname)
+                yield (os.path.join(digest[0:2], digest[2:4], digest), fname)
 
     def cmd_status(self, args):
         self.setup()

@@ -393,7 +393,19 @@ class GitFat(object):
         # Default to push only those objects referenced by current HEAD
         # (includes history). Finer-grained pushing would be useful.
         pushall = '--all' in args
-        files = self.referenced_objects(all=pushall) & self.catalog_objects()
+        # It would be better to use argparse, but that's more invasive surgery
+        filelistarg = next(iter([item for item in args if item.startswith('--files-from=')]),None)
+        files = set()
+        if filelistarg:
+          filelist = filelistarg.split('--files-from=')[1]
+          with open(filelist) as f:
+            files_to_push = f.read().splitlines()
+          # To Do this should be threaded
+          for f in files_to_push:
+            tmp = subprocess.check_output(['git','cat-file','--textconv',':' + f]).strip()
+            files.add(self.object_path(self.decode_clean(tmp)))
+        else:
+          files = self.referenced_objects(all=pushall) & self.catalog_objects()
         cmd = self.get_rsync_command(push=True)
         self.verbose('Executing: %s' % ' '.join(cmd))
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
